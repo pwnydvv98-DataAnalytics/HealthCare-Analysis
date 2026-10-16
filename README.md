@@ -98,7 +98,9 @@ Production data contained logging errors, corrupted timelines, and dirty categor
 2. **Referential Integrity Audit:** Identified 983 orphan records referencing unmapped patient IDs (`patient_id = 999999`) and flagged them with `is_orphan_patient = 1` to preserve auditability without dropping encounter data.
 3. **Transaction Deduplication:** Identified and purged 3,500 duplicate billing logs by partitioning on `billing_id`.
 4. **Deterministic Mathematical Imputation:** Rectified 6,604 corrupted patient liability figures using deterministic business logic:
-   $$\text{patient\_liability\_amount} = \text{ROUND}(\text{charge\_amount} \times (1 - \text{insurance\_coverage\_pct}), 2)$$
+   ```text
+   patient_liability_amount = ROUND(charge_amount * (1 - insurance_coverage_pct), 2)
+   ```
 5. **Categorical Harmonization & Null Handling:** Standardized 7 inconsistent gender string variations (`' male '`, `'m '`, `'FEMALE'`, `'f'`) into uniform values (`Male`, `Female`, `Other`). Replaced string-masked nulls (`'UNKNOWN'`, `'null'`, empty strings) in insurance fields with `'Unassigned'`.
 
 ---
